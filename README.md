@@ -18,6 +18,11 @@ The results shown here are stored separately from the original gekkoga data and 
 ## UI
 $ node server.js rather than the command above.
 
+Click the COPY button to copy the toml settings to the clipboard to quickly run in Gekkos UI.
+
+![UI preview](http://i.imgur.com/s2VDwbv.png)
+
+
 #### tmux usage:
 1) sudo apt-get install tmux
 2) tmux new -s gekkoga
