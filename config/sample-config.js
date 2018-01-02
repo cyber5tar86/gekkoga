@@ -41,7 +41,7 @@ const config = {
   // How many parallel queries to run at once
   parallelqueries: 5,
 
-  // profit || score 
+  // profit || score
   // score = profit * sharpe -- feedback?
   // profit = recommended!
   mainObjective: 'profit',
