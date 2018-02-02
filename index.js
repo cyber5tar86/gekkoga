@@ -66,7 +66,6 @@ class Ga {
       }
     };
 
-
   }
 
   // Checks for, and if present loads old .json parameters
@@ -428,7 +427,6 @@ class Ga {
     console.log(`Starting GA with epoch populations of ${this.populationAmt}, running ${this.parallelqueries} units at a time!`);
 
     while (1) {
-
       const startTime = new Date().getTime();
       const res = await this.fitnessApi(population);
 
@@ -515,7 +513,12 @@ class Ga {
 
       // store in json
       const json = JSON.stringify(allTimeMaximum);
-      await fs.writeFile(`./results/${this.configName}-${this.currency}_${this.asset}.json`, json, 'utf8').catch(err => console.log(err) );
+
+      const configId = `${this.configName}-${this.currency}_${this.asset}`;
+
+      process.send({results: otherPopulationMetrics[position], input: population[position], configId: configId});
+
+      await fs.writeFile(`./results/${configId}.json`, json, 'utf8').catch(err => console.log(err) );
 
       if (this.sendemail && this.notifynewhigh) {
         var transporter = nodemailer.createTransport({
@@ -539,7 +542,6 @@ class Ga {
           }
         });
       }
-
 
       population = newPopulation;
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <title>Gekko GA | UI</title>
+
+  <link rel="stylesheet" href="/static/css/main.css">
+
+</head>
+<body>
+  <h1>Gekko Genetic Algorithm</h1>
+  <p>
+    This is a UI layer built on top of <a href="https://github.com/gekkowarez/gekkoga">gekkoga</a>.<br /> I've tried to tamper with the original code as little as possible while still allowing it to be used directly through the command line.<br />
+    The results shown here are stored separately from the original gekkoga data and currently stores the top 50 results for each strategy - all in the same manner as the original gekkoga.
+  </p>
+
+  <h4>Configs available</h4>
+  <ul class="config-list">
+    <% for(var i=0; i<configs.length; i++) {%>
+      <li class="config-item"><%= configs[i] %>
+        <% if (isRunningConfig && currentConfig == configs[i]) {%>
+          <a class="stop-button button">Stop</a>
+        <% } else { %>
+          <a data-slug="<%= configs[i] %>" class="run-button button">Run</a>
+        <% } %>
+      </li>
+    <% } %>
+  </ul>
+
+  <% if (isRunningConfig && history.length) {%>
+    <div class="results">
+      <h4>Currently running: <%= currentConfig %> <a class="stop-button button">Stop</a></h4>
+
+      <table style="width:100%">
+        <tr>
+          <th>Candle size</th>
+          <% for(var i=0; i<history[0].options.length; i++) {%>
+            <th><%= history[0].options[i].key %></th>
+          <% } %>
+          <th>Trades</th>
+          <th>Profit</th>
+          <th></th>
+        </tr>
+        <% for(var i=0; i<history.length; i++) {%>
+          <tr>
+            <td><%= history[i].candleSize %></td>
+            <% for(var n=0; n<history[i].options.length; n++) {%>
+              <td><%= history[i].options[n].value %></td>
+            <% } %>
+            <td><%= history[i].results.trades %></td>
+            <td><%= history[i].results.relativeProfit %></td>
+            <td><a data-json="<%= JSON.stringify(history[i].input) %>" class="copy-toml-button button">copy</a></td>
+          </tr>
+        <% } %>
+      </table>
+    </div>
+  <% } %>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
